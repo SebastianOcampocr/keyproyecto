@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario</title>
+    <style>
+        table {
+            width: 100%;  /* La tabla ocupa todo el ancho */
+            border-collapse: collapse;  /* Sin espacios entre bordes de celdas */
+            margin-top: 20px;  /* Espacio arriba de la tabla */
+        }
+        th, td {
+            border: 1px solid #ddd;  /* Bordes de las celdas */
+            padding: 8px;  /* Espacio dentro de las celdas */
+            text-align: left;  /* Texto alineado a la izquierda */
+        }
+        th {
+            background-color: #f2f2f2;  /* Fondo gris claro para los encabezados */
+        }
+    </style>
+</head>
+<body>
+    <!-- Hecho por Keylan, fecha 8/3/2024 -->
+    <h1>Gestión de Inventario</h1>
+
+    <!-- Botón para ir a la página de proveedores -->
+    <a href="/proveedores" style="text-decoration: none;">
+        <button type="button">Ver Proveedores</button>
+    </a>
+
+    <!-- Botón para ir a la página de ventas -->
+    <a href="/ventas" style="text-decoration: none;">
+        <button type="button">Ver Ventas</button>
+    </a>
+
+    <h2>Agregar Producto</h2>
+    <form action="/agregar_producto" method="post">
+        <label for="nombre">Producto:</label>
+        <input type="text" name="nombre" required>  <!-- Campo para el nombre del producto -->
+        
+        <label for="categoria_id">Categoría:</label>
+        <select name="categoria_id" required>  <!-- Menú desplegable para categorías -->
+            {% for categoria in categorias %}
+                <option value="{{ categoria[0] }}">{{ categoria[1] }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="precio">Precio:</label>
+        <input type="number" name="precio" step="0.01" required>  <!-- Campo para el precio del producto -->
+        
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" name="cantidad" required>  <!-- Campo para la cantidad del producto -->
+        
+        <label for="proveedor_id">Proveedor:</label>
+        <select name="proveedor_id" required>  <!-- Menú desplegable para proveedores -->
+            {% for proveedor in proveedores %}
+                <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
+            {% endfor %}
+        </select>
+        
+        <input type="submit" value="Agregar Producto">  <!-- Botón para enviar el formulario -->
+    </form>
+
+    <h2>Lista de Productos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto[0] }}</td>  <!-- ID del producto -->
+                    <td>{{ producto[1] }}</td>  <!-- Nombre del producto -->
+                    <td>{{ producto[2] }}</td>  <!-- Categoría del producto -->
+                    <td>${{ producto[3] }}</td>  <!-- Precio del producto -->
+                    <td>{{ producto[4] }}</td>  <!-- Cantidad del producto -->
+                    <td>
+                        <!-- Formulario para modificar la cantidad del producto -->
+                        <form action="/modificar_cantidad/{{ producto[0] }}" method="post" style="display:inline;">
+                            <input type="number" name="nueva_cantidad" min="0" required placeholder="Nueva Cantidad" size="4">
+                            <input type="submit" value="Modificar Cantidad">
+                        </form>
+
+                        <!-- Formulario para registrar una venta -->
+                        <form action="/reducir_cantidad/{{ producto[0] }}" method="post" style="display:inline;">
+                            <input type="number" name="cantidad" min="1" max="{{ producto[4] }}" placeholder="Cantidad Vendida" required>
+                            <input type="submit" value="Registrar Venta">
+                        </form>
+                        
+                        <!-- Formulario para eliminar el producto -->
+                        <form action="/eliminar_producto/{{ producto[0] }}" method="post" style="display:inline;">
+                            <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

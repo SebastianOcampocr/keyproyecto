@@ -1,0 +1,10 @@
+Estructura del proyecto
+│
+├── app.py
+├── crea_db.py
+├── templates/
+│   ├── Producto.html
+│   ├── Categories.html
+│   ├── Supplier.html
+│   └── Sales.html
+└── librerias.txt

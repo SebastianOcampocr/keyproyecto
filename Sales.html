@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Ventas</title> <!-- Título de la página -->
+    <style>
+        table {
+            border-collapse: collapse; /* Unir bordes de las celdas */
+            width: 100%; /* Ancho completo de la tabla */
+        }
+        th, td {
+            border: 1px solid #ddd; /* Bordes finos y grises */
+            padding: 8px; /* Espaciado interno en celdas */
+            text-align: left; /* Texto alineado a la izquierda */
+        }
+        th {
+            background-color: #f2f2f2; /* Fondo gris para encabezados */
+        }
+    </style>
+</head>
+<body>
+    <!-- Hecho por Keylan, fecha 8/3/2024 -->
+    <h1>Lista de Ventas</h1> <!-- Encabezado principal -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th style="width: 20px;"></th> <!-- Columna para espaciado -->
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iteración sobre las ventas -->
+            {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta[0] }}</td> <!-- ID de la venta -->
+                    <td></td> <!-- Celda vacía para espaciado -->
+                    <td>{{ venta[1] }}</td> <!-- Nombre del producto vendido -->
+                    <td>{{ venta[2] }}</td> <!-- Cantidad vendida -->
+                    <td>{{ venta[3] }}</td> <!-- Fecha de la venta -->
+                    <td>${{ venta[4] }}</td> <!-- Total de la venta -->
+                    <td>
+                        <!-- Formulario para eliminar la venta -->
+                        <form action="/eliminar_venta/{{ venta[0] }}" method="post" style="display:inline;">
+                            <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que quieres eliminar esta venta?');"> <!-- Confirmación para eliminar -->
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Enlace para volver al inventario -->
+    <a href="/">Volver al Inventario</a>
+</body>
+</html>

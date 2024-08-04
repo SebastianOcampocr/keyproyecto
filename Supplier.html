@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Proveedores</title>  <!-- Título de la página -->
+</head>
+<body>
+    <!-- Hecho por Keylan, fecha 8/3/2024 -->
+    <h1>Lista de Proveedores</h1>  <!-- Encabezado principal -->
+    
+    <!-- Formulario para agregar un nuevo proveedor -->
+    <form action="/agregar_proveedor" method="post">
+        <input type="text" name="nombre" placeholder="Nombre del proveedor" required>  <!-- Campo para el nombre del proveedor -->
+        <input type="email" name="contacto" placeholder="Correo de contacto" required>  <!-- Campo para el correo del proveedor -->
+        <input type="submit" value="Agregar Proveedor">  <!-- Botón para enviar el formulario -->
+    </form>
+    
+    <h2>Proveedores Registrados</h2>  <!-- Encabezado para la lista de proveedores -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Contacto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proveedor in proveedores %}
+                <tr>
+                    <td>{{ proveedor[1] }}</td>  <!-- Nombre del proveedor -->
+                    <td>{{ proveedor[2] }}</td>  <!-- Correo del proveedor -->
+                    <td>
+                        <!-- Formulario para eliminar el proveedor -->
+                        <form action="/eliminar_proveedor/{{ proveedor[0] }}" method="post" style="display:inline;">
+                            <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que quieres eliminar este proveedor?');">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <button onclick="window.location.href='/'">Volver a la página principal</button>  <!-- Botón para volver a la página principal -->
+</body>
+</html>
